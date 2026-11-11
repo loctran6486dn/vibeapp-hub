@@ -24,7 +24,7 @@ const APPS_DATA = [
       "📴 Chạy 100% Offline không cần kết nối mạng (Service Worker)",
       "💻 Tích hợp sẵn ứng dụng ZenVibe.app dành riêng cho macOS"
     ],
-    demoUrl: "", // Điền URL Vercel nếu đã deploy online, ví dụ: https://zenvibe-relax.vercel.app
+    demoUrl: "https://zenvibe-sandy.vercel.app",
     downloadFile: "downloads/zenvibe.zip",
     downloadSize: "13.0 MB",
     githubUrl: "https://github.com/loctran6486dn/zenvibe",
@@ -57,7 +57,7 @@ const APPS_DATA = [
       "🔄 Cơ chế Smart Merge & Khôi phục dữ liệu chống mất đơn khi rớt mạng",
       "📊 Báo cáo biểu đồ doanh số trực quan theo ngày, tuần, tháng"
     ],
-    demoUrl: "",
+    demoUrl: "https://quanlyhanghoaloc.vercel.app",
     downloadFile: "downloads/app_quan_ly_hang_hoa.zip",
     downloadSize: "56 KB",
     githubUrl: "https://github.com/loctran6486dn/quanlyhanghoa",
