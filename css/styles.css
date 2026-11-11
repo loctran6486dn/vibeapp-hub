@@ -730,3 +730,111 @@ body {
     gap: 20px;
   }
 }
+
+/* ==========================================================================
+   Download Counter & Download UI Styles
+   ========================================================================== */
+
+.download-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  font-size: 0.82rem;
+}
+
+[data-theme="light"] .download-meta-row {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.download-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.download-count-badge strong {
+  color: #38bdf8;
+  font-size: 0.9rem;
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.download-size-badge {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.btn-card-download {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+.btn-card-download:hover {
+  background: rgba(16, 185, 129, 0.22);
+  border-color: #34d399;
+  color: #ffffff;
+}
+
+.download-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.25);
+  color: #a7f3d0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 4px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.download-pill.bump, .download-count-badge strong.bump, .modal-count-bump.bump {
+  animation: popBump 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popBump {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); color: #10b981; }
+  100% { transform: scale(1); }
+}
+
+.modal-download-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-md);
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.modal-download-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-download-stats {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+.modal-download-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+

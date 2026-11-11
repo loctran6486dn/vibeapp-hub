@@ -5,11 +5,13 @@
 let currentCategory = "all";
 let searchQuery = "";
 let customApps = [];
+let downloadCounts = {};
 
 // Khởi chạy khi tài liệu sẵn sàng
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   loadCustomApps();
+  initDownloadCounts();
   renderCategories();
   renderApps();
   initSearch();
@@ -58,6 +60,90 @@ function getAllApps() {
   return [...APPS_DATA, ...customApps];
 }
 
+// Quản lý Bộ đếm lượt Tải về (Download Counter)
+function initDownloadCounts() {
+  // 1. Nạp số lượng ban đầu từ APPS_DATA
+  APPS_DATA.forEach(app => {
+    downloadCounts[app.id] = app.initialDownloads || 20;
+  });
+
+  // 2. Nạp thêm từ localStorage nếu có
+  try {
+    const saved = localStorage.getItem("vibe_downloads");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      downloadCounts = { ...downloadCounts, ...parsed };
+    }
+  } catch (e) {}
+
+  // 3. Kéo số liệu mới nhất từ Vercel Serverless Function nếu có mạng
+  fetch("/api/downloads")
+    .then(res => res.json())
+    .then(data => {
+      if (data && typeof data === "object") {
+        downloadCounts = { ...downloadCounts, ...data };
+        updateAllDownloadBadges();
+        updateStats();
+      }
+    })
+    .catch(() => {});
+}
+
+function getDownloadCount(appId) {
+  return downloadCounts[appId] || 20;
+}
+
+window.trackDownload = function(appId) {
+  downloadCounts[appId] = (downloadCounts[appId] || 0) + 1;
+  try {
+    localStorage.setItem("vibe_downloads", JSON.stringify(downloadCounts));
+  } catch (e) {}
+
+  // Kích hoạt hiệu ứng nhảy số (Bump Animation) trên UI
+  updateAppDownloadUI(appId);
+  updateStats();
+
+  // Đẩy ngầm lên Serverless Cloud để đồng bộ cho toàn bộ cộng đồng
+  fetch("/api/downloads", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ appId })
+  }).catch(() => {});
+};
+
+function updateAppDownloadUI(appId) {
+  const count = getDownloadCount(appId);
+  const formatted = count.toLocaleString("vi-VN");
+
+  document.querySelectorAll(`strong[data-download-strong="${appId}"]`).forEach(el => {
+    el.textContent = formatted;
+    el.classList.remove("bump");
+    void el.offsetWidth;
+    el.classList.add("bump");
+  });
+
+  document.querySelectorAll(`.download-pill[data-download-pill="${appId}"]`).forEach(el => {
+    el.textContent = formatted;
+    el.classList.remove("bump");
+    void el.offsetWidth;
+    el.classList.add("bump");
+  });
+
+  const modalEl = document.getElementById(`modal-count-${appId}`);
+  if (modalEl) {
+    modalEl.textContent = formatted;
+    modalEl.classList.remove("bump");
+    void modalEl.offsetWidth;
+    modalEl.classList.add("bump");
+  }
+}
+
+function updateAllDownloadBadges() {
+  getAllApps().forEach(app => {
+    updateAppDownloadUI(app.id);
+  });
+}
+
 // Render Danh Mục Phân Loại
 function renderCategories() {
   const container = document.getElementById("categoriesBar");
@@ -85,11 +171,19 @@ function updateStats() {
   const all = getAllApps();
   const totalAppsEl = document.getElementById("statTotalApps");
   const openSourceEl = document.getElementById("statOpenSource");
+  const totalDownloadsEl = document.getElementById("statTotalDownloads");
 
   if (totalAppsEl) totalAppsEl.textContent = all.length;
   if (openSourceEl) {
     const ghCount = all.filter(a => a.githubUrl).length;
     openSourceEl.textContent = `${ghCount}/${all.length}`;
+  }
+  if (totalDownloadsEl) {
+    let total = 0;
+    all.forEach(app => {
+      total += getDownloadCount(app.id);
+    });
+    totalDownloadsEl.textContent = `${total.toLocaleString("vi-VN")}+`;
   }
 }
 
@@ -162,6 +256,14 @@ function renderApps() {
           ${(app.platforms || []).map(p => `<span class="platform-pill">${p}</span>`).join("")}
         </div>
 
+        <div class="download-meta-row">
+          <span class="download-count-badge">
+            <span>📥</span>
+            <strong data-download-strong="${app.id}">${getDownloadCount(app.id).toLocaleString("vi-VN")}</strong> lượt tải
+          </span>
+          <span class="download-size-badge">${app.downloadSize ? `Dung lượng: ${app.downloadSize}` : ''}</span>
+        </div>
+
         <div class="card-actions">
           ${app.demoUrl ? `
             <a href="${app.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn-card btn-card-primary">
@@ -169,13 +271,14 @@ function renderApps() {
             </a>
           ` : `
             <button class="btn-card btn-card-primary" onclick="openDetailModal('${app.id}')">
-              <span>📖 Xem Hướng Dẫn</span>
+              <span>📖 Hướng Dẫn</span>
             </button>
           `}
 
           ${app.downloadFile ? `
-            <a href="${app.downloadFile}" download class="btn-card btn-card-secondary" title="Tải về file đóng gói (${app.downloadSize || ''})">
+            <a href="${app.downloadFile}" download onclick="trackDownload('${app.id}')" class="btn-card btn-card-download" title="Tải về file đóng gói (${app.downloadSize || ''})">
               <span>📦 Tải Về</span>
+              <span class="download-pill" data-download-pill="${app.id}">${getDownloadCount(app.id).toLocaleString("vi-VN")}</span>
             </a>
           ` : ''}
 
@@ -231,16 +334,25 @@ window.openDetailModal = function(appId) {
         ${guideHtml}
       </div>
 
-      <div style="display:flex; gap:12px; margin-top:24px; flex-wrap:wrap;">
+      ${app.downloadFile ? `
+        <div class="modal-download-box">
+          <div class="modal-download-info">
+            <span style="font-size: 1.8rem;">📥</span>
+            <div>
+              <div class="modal-download-stats">Đã có <strong id="modal-count-${app.id}" class="modal-count-bump" data-download-strong="${app.id}">${getDownloadCount(app.id).toLocaleString("vi-VN")}</strong> lượt tải về</div>
+              <div class="modal-download-sub">Gói mã nguồn đóng gói • Dung lượng: ${app.downloadSize || 'ZIP'}</div>
+            </div>
+          </div>
+          <a href="${app.downloadFile}" download onclick="trackDownload('${app.id}')" class="btn-primary" style="background:#10b981; padding:10px 22px;">
+            <span>📦 Tải Về Trực Tiếp</span>
+          </a>
+        </div>
+      ` : ''}
+
+      <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
         ${app.demoUrl ? `
           <a href="${app.demoUrl}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="flex:1; justify-content:center;">
             ⚡ Mở Trực Tiếp Trên Web
-          </a>
-        ` : ''}
-
-        ${app.downloadFile ? `
-          <a href="${app.downloadFile}" download class="btn-primary" style="flex:1; justify-content:center; background:#10b981;">
-            📦 Tải Về Trực Tiếp (${app.downloadSize || 'ZIP'})
           </a>
         ` : ''}
 

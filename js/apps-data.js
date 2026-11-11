@@ -27,6 +27,7 @@ const APPS_DATA = [
     demoUrl: "https://zenvibe-sandy.vercel.app",
     downloadFile: "downloads/zenvibe.zip",
     downloadSize: "13.0 MB",
+    initialDownloads: 148,
     githubUrl: "https://github.com/loctran6486dn/zenvibe",
     version: "v1.2.0",
     installGuide: {
@@ -60,6 +61,7 @@ const APPS_DATA = [
     demoUrl: "https://quanlyhanghoaloc.vercel.app",
     downloadFile: "downloads/app_quan_ly_hang_hoa.zip",
     downloadSize: "56 KB",
+    initialDownloads: 92,
     githubUrl: "https://github.com/loctran6486dn/quanlyhanghoa",
     version: "v2.0.0",
     installGuide: {
@@ -93,6 +95,7 @@ const APPS_DATA = [
     demoUrl: "",
     downloadFile: "downloads/capcutmini.zip",
     downloadSize: "1.5 MB",
+    initialDownloads: 65,
     githubUrl: "https://github.com/loctran6486dn/capcutmini",
     version: "v1.1.0",
     installGuide: {
@@ -124,6 +127,7 @@ const APPS_DATA = [
     demoUrl: "",
     downloadFile: "",
     downloadSize: "GitHub",
+    initialDownloads: 41,
     githubUrl: "https://github.com/loctran6486dn",
     version: "v1.0.0",
     installGuide: {
