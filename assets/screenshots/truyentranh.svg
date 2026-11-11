@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b" />
+      <stop offset="100%" stop-color="#27272a" />
+    </linearGradient>
+    <linearGradient id="mangaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f43f5e" />
+      <stop offset="100%" stop-color="#fb7185" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgGrad)" />
+
+  <circle cx="700" cy="100" r="150" fill="#f43f5e" opacity="0.15" filter="blur(60px)" />
+  <circle cx="100" cy="400" r="150" fill="#8b5cf6" opacity="0.12" filter="blur(60px)" />
+
+  <!-- Tablet / Phone Center Showcase -->
+  <g transform="translate(250, 40)" filter="url(#shadow)">
+    <rect x="0" y="0" width="300" height="420" rx="28" fill="#09090b" stroke="#3f3f46" stroke-width="3" />
+    
+    <!-- Reader Header -->
+    <rect x="20" y="24" width="120" height="16" rx="4" fill="#f43f5e" />
+    <rect x="220" y="24" width="60" height="16" rx="8" fill="#27272a" />
+    <text x="250" y="36" text-anchor="middle" fill="#a1a1aa" font-family="sans-serif" font-size="10">Chap 142</text>
+
+    <!-- Manga Panels Simulation -->
+    <rect x="20" y="56" width="260" height="150" rx="10" fill="#18181b" stroke="#27272a" stroke-width="2" />
+    <!-- Action lines & art -->
+    <path d="M40 70 L140 180 L220 80" stroke="#f43f5e" stroke-width="3" fill="none" opacity="0.7" />
+    <circle cx="150" cy="130" r="30" fill="#27272a" />
+    <text x="150" y="136" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="20">⚔️</text>
+    <rect x="30" y="170" width="100" height="20" rx="4" fill="#09090b" opacity="0.8" />
+    <text x="36" y="184" fill="#fda4af" font-family="sans-serif" font-size="10" font-weight="bold">"Trận chiến bắt đầu!"</text>
+
+    <rect x="20" y="216" width="125" height="130" rx="10" fill="#18181b" stroke="#27272a" stroke-width="2" />
+    <circle cx="82" cy="270" r="24" fill="#8b5cf6" opacity="0.4" />
+    <text x="82" y="276" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="18">📖</text>
+    <text x="82" y="320" text-anchor="middle" fill="#a1a1aa" font-family="sans-serif" font-size="10">Trang 45</text>
+
+    <rect x="155" y="216" width="125" height="130" rx="10" fill="#18181b" stroke="#27272a" stroke-width="2" />
+    <circle cx="217" cy="270" r="24" fill="#10b981" opacity="0.4" />
+    <text x="217" y="276" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="18">⚡</text>
+    <text x="217" y="320" text-anchor="middle" fill="#a1a1aa" font-family="sans-serif" font-size="10">Trang 46</text>
+
+    <!-- Bottom Controls -->
+    <rect x="20" y="360" width="260" height="38" rx="10" fill="#27272a" />
+    <text x="45" y="384" fill="#a1a1aa" font-family="sans-serif" font-size="12">⏮ Chap trước</text>
+    <circle cx="150" cy="379" r="10" fill="#f43f5e" />
+    <text x="220" y="384" fill="#f43f5e" font-family="sans-serif" font-size="12" font-weight="bold">Chap sau ⏭</text>
+  </g>
+
+  <!-- Left Float Badge -->
+  <g transform="translate(50, 190)" filter="url(#shadow)">
+    <rect width="170" height="84" rx="16" fill="#18181b" stroke="#f43f5e" stroke-width="1.5" />
+    <text x="20" y="34" fill="#fb7185" font-family="sans-serif" font-size="12" font-weight="bold">⚡ Flutter Native Engine</text>
+    <text x="20" y="56" fill="#a1a1aa" font-family="sans-serif" font-size="10">Cuộn mượt 120Hz</text>
+    <text x="20" y="70" fill="#a1a1aa" font-family="sans-serif" font-size="10">Tải trang cực nhạy</text>
+  </g>
+
+  <!-- Right Float Badge -->
+  <g transform="translate(580, 200)" filter="url(#shadow)">
+    <rect width="170" height="84" rx="16" fill="#18181b" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="20" y="34" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="bold">📚 Thư Viện Phong Phú</text>
+    <text x="20" y="56" fill="#a1a1aa" font-family="sans-serif" font-size="10">Truyện tranh, Manga,</text>
+    <text x="20" y="70" fill="#a1a1aa" font-family="sans-serif" font-size="10">Tiểu thuyết offline</text>
+  </g>
+</svg>

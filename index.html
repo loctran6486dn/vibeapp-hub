@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeApp Hub • Cổng Ứng Dụng Vibe-Coding của Lộc Trần</title>
+  <meta name="description" content="Trang giới thiệu, dùng thử và tải về các ứng dụng Vibe-Coding thực chiến được phát triển bởi Lộc Trần với AI. Miễn phí 100% mã nguồn mở.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/logo.svg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Ambient Background Glows -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#" class="brand">
+        <img src="assets/icons/logo.svg" alt="VibeApp Hub Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1>VibeApp Hub</h1>
+        </div>
+        <span class="brand-badge">By Lộc Trần</span>
+      </a>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn-icon" title="Chuyển chế độ Sáng / Tối" aria-label="Toggle Theme">
+          <span id="themeIcon">☀️</span>
+        </button>
+        <a href="https://github.com/loctran6486dn" target="_blank" rel="noopener noreferrer" class="btn-icon" title="Xem GitHub Profile của tác giả">
+          <span>🐙</span>
+        </a>
+        <button id="openAddAppModal" class="btn-primary">
+          <span>+ Thêm App</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="hero-pill">
+        <span>✨</span> Vibe Coding Showcase • Chia Sẻ Cộng Đồng
+      </div>
+      <h2 class="hero-title">
+        Biến Ý Tưởng Thành <span class="gradient-text">Ứng Dụng Thực Tế</span> Bằng AI
+      </h2>
+      <p class="hero-desc">
+        Nơi tôi lưu trữ và chia sẻ các ứng dụng thực chiến được tạo ra từ đam mê Vibe-coding. Bạn có thể dùng thử trực tiếp trên web, tải về máy tính hoặc cài đặt lên điện thoại hoàn toàn miễn phí.
+      </p>
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-value" id="statTotalApps">4</span>
+          <span class="stat-label">Ứng Dụng Đã Ra Mắt</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="statOpenSource">4/4</span>
+          <span class="stat-label">Mã Nguồn Mở GitHub</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">100%</span>
+          <span class="stat-label">Miễn Phí Tải Về</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">Đa Nền Tảng</span>
+          <span class="stat-label">Web • PWA • macOS • Mobile</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls Card (Search & Categories) -->
+    <section class="controls-card">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Tìm kiếm app theo tên, tính năng, từ khóa (ví dụ: thư giãn, kho, video, flutter)..." 
+        />
+      </div>
+
+      <div class="categories-bar" id="categoriesBar">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- Apps Showcase Grid -->
+    <section class="apps-grid" id="appsGrid">
+      <!-- Rendered by JS -->
+    </section>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-container" id="detailModalContent">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- Add App Modal -->
+  <div class="modal-overlay" id="addAppModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 style="font-size:1.25rem; font-weight:700;">🚀 Thêm Ứng Dụng Mới</h2>
+        <button class="modal-close" onclick="closeAllModals()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="addAppForm" style="display:flex; flex-direction:column; gap:14px;">
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Tên Ứng Dụng *</label>
+            <input type="text" id="newAppTitle" required class="search-input" style="padding-left:14px;" placeholder="Ví dụ: AI Voice Studio">
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Khẩu Hiệu / Tóm Tắt Ngắn *</label>
+            <input type="text" id="newAppSubtitle" required class="search-input" style="padding-left:14px;" placeholder="Ví dụ: Tạo giọng đọc thuyết minh chuyên nghiệp">
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Danh Mục *</label>
+              <select id="newAppCategory" class="search-input" style="padding-left:14px;">
+                <option value="productivity">Quản lý & Bán hàng</option>
+                <option value="relax">Âm thanh & Thư giãn</option>
+                <option value="video">Video & Sáng tạo</option>
+                <option value="reading">Đọc truyện & Sách</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Biểu Tượng Emoji</label>
+              <input type="text" id="newAppIcon" class="search-input" style="padding-left:14px;" placeholder="🎙️, 💡, ⚡">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Nền Tảng Hỗ Trợ (cách nhau dấu phẩy)</label>
+            <input type="text" id="newAppPlatforms" class="search-input" style="padding-left:14px;" placeholder="Web, PWA, iOS, Android, macOS">
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Mô Tả Chi Tiết *</label>
+            <textarea id="newAppDesc" required class="search-input" rows="3" style="padding-left:14px; resize:vertical;" placeholder="Giới thiệu mục đích ứng dụng, bài toán giải quyết..."></textarea>
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Tính Năng Chính (mỗi dòng 1 tính năng)</label>
+            <textarea id="newAppFeatures" class="search-input" rows="3" style="padding-left:14px; resize:vertical;" placeholder="Tốc độ cao 60FPS&#10;Hỗ trợ hoạt động Offline&#10;Đồng bộ đám mây"></textarea>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Link Dùng Thử (Demo URL)</label>
+              <input type="url" id="newAppDemo" class="search-input" style="padding-left:14px;" placeholder="https://app-cua-ban.vercel.app">
+            </div>
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Link GitHub Repo</label>
+              <input type="url" id="newAppGithub" class="search-input" style="padding-left:14px;" placeholder="https://github.com/loctran6486dn/...">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 2fr 1fr; gap:12px;">
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">File Hoặc Link Tải Về</label>
+              <input type="text" id="newAppDownload" class="search-input" style="padding-left:14px;" placeholder="downloads/my-app.zip hoặc link Drive">
+            </div>
+            <div>
+              <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Dung Lượng</label>
+              <input type="text" id="newAppSize" class="search-input" style="padding-left:14px;" placeholder="Ví dụ: 12 MB">
+            </div>
+          </div>
+
+          <div>
+            <label style="font-size:0.85rem; color:var(--text-secondary); display:block; margin-bottom:4px;">Đường Dẫn Ảnh Chụp Màn Hình (Tùy chọn)</label>
+            <input type="text" id="newAppScreenshot" class="search-input" style="padding-left:14px;" placeholder="assets/screenshots/... hoặc URL ảnh online">
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:12px;">
+            <button type="button" class="btn-card btn-card-secondary" onclick="closeAllModals()" style="flex:none; padding:10px 20px;">Hủy Bỏ</button>
+            <button type="submit" class="btn-primary" style="padding:10px 24px;">Lưu & Hiển Thị Ngay</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="social-links">
+        <a href="https://github.com/loctran6486dn" target="_blank" rel="noopener noreferrer" class="btn-icon" title="GitHub Profile">🐙</a>
+      </div>
+      <p class="footer-text">
+        © 2026 VibeApp Hub • Được xây dựng với đam mê Vibe-Coding bởi <strong>Lộc Trần</strong>.
+      </p>
+      <p style="font-size:0.75rem; color:var(--text-muted);">
+        Deploy trực tiếp trên Vercel Edge Network • Tối ưu 100% cho mọi thiết bị di động & máy tính.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/apps-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
