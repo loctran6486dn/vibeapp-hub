@@ -3,10 +3,10 @@
  */
 
 const defaultCounts = {
-  "zenvibe": 148,
-  "quan-ly-hang-hoa": 92,
-  "capcut-mini": 65,
-  "app-truyen-tranh": 41
+  "zenvibe": 0,
+  "quan-ly-hang-hoa": 0,
+  "capcut-mini": 0,
+  "app-truyen-tranh": 0
 };
 
 module.exports = async function handler(req, res) {

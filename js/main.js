@@ -60,23 +60,25 @@ function getAllApps() {
   return [...APPS_DATA, ...customApps];
 }
 
-// Quản lý Bộ đếm lượt Tải về (Download Counter)
+// Quản lý Bộ đếm lượt Tải về Thực Tế (Download Counter)
 function initDownloadCounts() {
-  // 1. Nạp số lượng ban đầu từ APPS_DATA
+  // 1. Nạp số lượng ban đầu thực tế từ APPS_DATA (bắt đầu từ 0)
   APPS_DATA.forEach(app => {
-    downloadCounts[app.id] = app.initialDownloads || 20;
+    downloadCounts[app.id] = app.initialDownloads || 0;
   });
 
-  // 2. Nạp thêm từ localStorage nếu có
+  // 2. Dọn dẹp cache số ảo cũ và nạp số liệu thực tế từ localStorage
   try {
-    const saved = localStorage.getItem("vibe_downloads");
+    localStorage.removeItem("vibe_downloads"); // Xóa số ảo 148, 92... cũ
+
+    const saved = localStorage.getItem("vibe_downloads_real");
     if (saved) {
       const parsed = JSON.parse(saved);
       downloadCounts = { ...downloadCounts, ...parsed };
     }
   } catch (e) {}
 
-  // 3. Kéo số liệu mới nhất từ Vercel Serverless Function nếu có mạng
+  // 3. Kéo số liệu thực tế từ Vercel Serverless Function nếu có kết nối
   fetch("/api/downloads")
     .then(res => res.json())
     .then(data => {
@@ -90,13 +92,13 @@ function initDownloadCounts() {
 }
 
 function getDownloadCount(appId) {
-  return downloadCounts[appId] || 20;
+  return downloadCounts[appId] || 0;
 }
 
 window.trackDownload = function(appId) {
   downloadCounts[appId] = (downloadCounts[appId] || 0) + 1;
   try {
-    localStorage.setItem("vibe_downloads", JSON.stringify(downloadCounts));
+    localStorage.setItem("vibe_downloads_real", JSON.stringify(downloadCounts));
   } catch (e) {}
 
   // Kích hoạt hiệu ứng nhảy số (Bump Animation) trên UI
@@ -183,7 +185,7 @@ function updateStats() {
     all.forEach(app => {
       total += getDownloadCount(app.id);
     });
-    totalDownloadsEl.textContent = `${total.toLocaleString("vi-VN")}+`;
+    totalDownloadsEl.textContent = total.toLocaleString("vi-VN");
   }
 }
 
